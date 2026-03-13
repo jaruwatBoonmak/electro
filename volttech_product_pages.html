@@ -1,0 +1,741 @@
+<!DOCTYPE html>
+<html lang="th">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>โวลต์เทค | สินค้าทั้งหมด</title>
+<link href="https://fonts.googleapis.com/css2?family=Sarabun:wght@300;400;500;600;700&family=Playfair+Display:wght@700&display=swap" rel="stylesheet">
+<style>
+*{margin:0;padding:0;box-sizing:border-box}
+:root{
+  --white:#fff;--gray-50:#f9f9f7;--gray-100:#f2f1ee;--gray-200:#e4e2dc;
+  --gray-400:#9a9890;--gray-600:#5f5e5a;--gray-800:#2c2c2a;
+  --accent:#e24b4a;--accent-light:#faece7;--gold:#ba7517;--gold-light:#faeeda;
+}
+body{font-family:'Sarabun',sans-serif;color:var(--gray-800);background:var(--white);line-height:1.7;overflow-x:hidden}
+
+/* ─── NAV ─── */
+nav{position:sticky;top:0;z-index:200;background:rgba(255,255,255,0.96);backdrop-filter:blur(8px);border-bottom:.5px solid var(--gray-200)}
+.nav-inner{max-width:1200px;margin:0 auto;padding:0 1.5rem;display:flex;align-items:center;justify-content:space-between;height:60px;gap:16px}
+.logo{display:flex;align-items:center;gap:8px;text-decoration:none;flex-shrink:0}
+.logo-mark{width:32px;height:32px;background:var(--gray-800);border-radius:6px;display:flex;align-items:center;justify-content:center}
+.logo-mark svg{width:16px;height:16px;fill:none;stroke:#fff;stroke-width:2}
+.logo-text{font-size:16px;font-weight:700;color:var(--gray-800)}
+.logo-text span{color:var(--accent)}
+.nav-search{flex:1;max-width:400px;position:relative}
+.nav-search input{width:100%;padding:8px 16px 8px 38px;border:.5px solid var(--gray-200);border-radius:8px;font-family:'Sarabun',sans-serif;font-size:13px;color:var(--gray-800);background:var(--gray-50);outline:none;transition:border-color .2s}
+.nav-search input:focus{border-color:var(--gray-400);background:#fff}
+.nav-search svg{position:absolute;left:12px;top:50%;transform:translateY(-50%);width:14px;height:14px;fill:none;stroke:var(--gray-400);stroke-width:2}
+.nav-links{display:flex;gap:1.2rem;list-style:none}
+.nav-links a{text-decoration:none;color:var(--gray-600);font-size:13px;font-weight:500;transition:color .2s;white-space:nowrap}
+.nav-links a:hover,.nav-links a.active{color:var(--gray-800)}
+.nav-right{display:flex;align-items:center;gap:8px;flex-shrink:0}
+.cart-btn{position:relative;background:var(--gray-800);color:#fff;border:none;width:36px;height:36px;border-radius:8px;cursor:pointer;display:flex;align-items:center;justify-content:center;transition:background .2s}
+.cart-btn:hover{background:var(--accent)}
+.cart-btn svg{width:16px;height:16px;fill:none;stroke:#fff;stroke-width:2}
+.cart-badge{position:absolute;top:-5px;right:-5px;background:var(--accent);color:#fff;width:16px;height:16px;border-radius:50%;font-size:9px;font-weight:700;display:flex;align-items:center;justify-content:center;border:1.5px solid #fff}
+.hamburger{display:none;flex-direction:column;gap:4px;background:none;border:none;cursor:pointer;padding:4px}
+.hamburger span{display:block;width:20px;height:2px;background:var(--gray-800);border-radius:2px;transition:all .3s}
+.hamburger.open span:nth-child(1){transform:translateY(6px) rotate(45deg)}
+.hamburger.open span:nth-child(2){opacity:0}
+.hamburger.open span:nth-child(3){transform:translateY(-6px) rotate(-45deg)}
+.mobile-menu{display:none;position:fixed;top:60px;left:0;right:0;background:#fff;border-bottom:.5px solid var(--gray-200);padding:1rem 1.5rem;z-index:199;box-shadow:0 8px 24px rgba(0,0,0,.08)}
+.mobile-menu.open{display:block}
+.mobile-menu ul{list-style:none}
+.mobile-menu a{display:block;padding:11px 0;text-decoration:none;color:var(--gray-800);font-size:14px;font-weight:500;border-bottom:.5px solid var(--gray-200)}
+
+/* ─── PAGE SWITCHER ─── */
+.page{display:none}
+.page.active{display:block}
+
+/* ─── BREADCRUMB ─── */
+.breadcrumb{background:var(--gray-50);border-bottom:.5px solid var(--gray-200);padding:12px 1.5rem}
+.bc-inner{max-width:1200px;margin:0 auto;display:flex;align-items:center;gap:6px;font-size:12px;color:var(--gray-400);flex-wrap:wrap}
+.bc-inner a{text-decoration:none;color:var(--gray-400);transition:color .2s}
+.bc-inner a:hover{color:var(--gray-800)}
+.bc-inner span{color:var(--gray-800);font-weight:500}
+
+/* ─── SHOP PAGE ─── */
+.shop-layout{max-width:1200px;margin:0 auto;padding:32px 1.5rem;display:grid;grid-template-columns:240px 1fr;gap:32px;align-items:start}
+/* sidebar */
+.sidebar{position:sticky;top:76px}
+.sidebar-block{margin-bottom:28px}
+.sidebar-title{font-size:12px;font-weight:700;letter-spacing:1.5px;text-transform:uppercase;color:var(--gray-400);margin-bottom:12px;padding-bottom:8px;border-bottom:.5px solid var(--gray-200)}
+.filter-list{list-style:none}
+.filter-item{display:flex;align-items:center;justify-content:space-between;padding:6px 0;cursor:pointer;border-radius:6px;transition:background .15s}
+.filter-item:hover{background:var(--gray-50)}
+.filter-item label{display:flex;align-items:center;gap:8px;font-size:13px;color:var(--gray-600);cursor:pointer;flex:1}
+.filter-item input[type=checkbox]{width:15px;height:15px;accent-color:var(--gray-800);flex-shrink:0}
+.filter-count{font-size:11px;color:var(--gray-400);background:var(--gray-100);padding:1px 7px;border-radius:10px}
+.price-range{display:flex;flex-direction:column;gap:10px}
+.price-range input[type=range]{width:100%;accent-color:var(--gray-800)}
+.price-inputs{display:flex;gap:8px}
+.price-inputs input{flex:1;padding:6px 10px;border:.5px solid var(--gray-200);border-radius:6px;font-size:12px;font-family:'Sarabun',sans-serif;color:var(--gray-800);outline:none}
+.clear-filters{width:100%;padding:8px;border:1px solid var(--gray-200);border-radius:8px;background:transparent;font-family:'Sarabun',sans-serif;font-size:13px;color:var(--gray-600);cursor:pointer;transition:all .2s;margin-top:4px}
+.clear-filters:hover{border-color:var(--gray-800);color:var(--gray-800)}
+
+/* main content */
+.shop-main{}
+.shop-toolbar{display:flex;align-items:center;justify-content:space-between;margin-bottom:20px;gap:12px;flex-wrap:wrap}
+.result-count{font-size:14px;color:var(--gray-600)}
+.result-count strong{color:var(--gray-800);font-weight:600}
+.toolbar-right{display:flex;align-items:center;gap:10px}
+.sort-select{padding:7px 12px;border:.5px solid var(--gray-200);border-radius:8px;font-family:'Sarabun',sans-serif;font-size:13px;color:var(--gray-800);background:#fff;outline:none;cursor:pointer}
+.view-btns{display:flex;gap:4px}
+.view-btn{width:32px;height:32px;border:.5px solid var(--gray-200);background:#fff;border-radius:6px;cursor:pointer;display:flex;align-items:center;justify-content:center;transition:all .2s}
+.view-btn.active,.view-btn:hover{border-color:var(--gray-800);background:var(--gray-800)}
+.view-btn.active svg,.view-btn:hover svg{stroke:#fff}
+.view-btn svg{width:14px;height:14px;fill:none;stroke:var(--gray-600);stroke-width:2;transition:stroke .2s}
+.active-filters{display:flex;gap:6px;flex-wrap:wrap;margin-bottom:16px}
+.filter-tag{display:inline-flex;align-items:center;gap:5px;background:var(--gray-800);color:#fff;font-size:11px;font-weight:500;padding:3px 10px;border-radius:20px;cursor:pointer}
+.filter-tag:hover{background:var(--accent)}
+
+/* product grid */
+.prod-grid-4{display:grid;grid-template-columns:repeat(3,1fr);gap:14px}
+.prod-grid-list{display:grid;grid-template-columns:1fr;gap:10px}
+.pc{background:var(--white);border:.5px solid var(--gray-200);border-radius:12px;overflow:hidden;transition:all .2s;cursor:pointer}
+.pc:hover{border-color:var(--gray-400);transform:translateY(-3px);box-shadow:0 8px 24px rgba(0,0,0,.06)}
+.pc-img{height:150px;display:flex;align-items:center;justify-content:center;background:var(--gray-50);border-bottom:.5px solid var(--gray-200);position:relative}
+.pc-badge{position:absolute;top:10px;left:10px;background:var(--accent);color:#fff;font-size:10px;font-weight:600;padding:2px 8px;border-radius:4px}
+.pc-mok{position:absolute;top:10px;right:10px;background:var(--gold-light);color:var(--gold);font-size:9px;font-weight:600;padding:2px 6px;border-radius:3px;border:.5px solid var(--gold)}
+.pc-body{padding:14px}
+.pc-cat{font-size:10px;font-weight:600;letter-spacing:1px;text-transform:uppercase;color:var(--accent);margin-bottom:4px}
+.pc-name{font-size:13px;font-weight:600;color:var(--gray-800);margin-bottom:3px;line-height:1.4}
+.pc-spec{font-size:11px;color:var(--gray-400);margin-bottom:10px}
+.pc-footer{display:flex;justify-content:space-between;align-items:center}
+.pc-price{font-size:16px;font-weight:700;color:var(--gray-800)}
+.pc-unit{font-size:10px;color:var(--gray-400);font-weight:400}
+.add-btn{width:28px;height:28px;background:var(--gray-800);color:#fff;border:none;border-radius:6px;cursor:pointer;font-size:16px;display:flex;align-items:center;justify-content:center;transition:background .2s;flex-shrink:0}
+.add-btn:hover{background:var(--accent)}
+/* list view */
+.pc-list{display:flex;align-items:center;gap:16px;padding:14px;background:var(--white);border:.5px solid var(--gray-200);border-radius:10px;transition:all .2s;cursor:pointer}
+.pc-list:hover{border-color:var(--gray-400);box-shadow:0 4px 12px rgba(0,0,0,.05)}
+.pc-list-img{width:80px;height:70px;background:var(--gray-50);border-radius:8px;display:flex;align-items:center;justify-content:center;flex-shrink:0;border:.5px solid var(--gray-200)}
+.pc-list-body{flex:1;min-width:0}
+.pc-list-footer{display:flex;flex-direction:column;align-items:flex-end;gap:8px;flex-shrink:0}
+/* pagination */
+.pagination{display:flex;align-items:center;justify-content:center;gap:6px;margin-top:36px}
+.page-btn{width:34px;height:34px;border:.5px solid var(--gray-200);background:#fff;border-radius:8px;cursor:pointer;font-family:'Sarabun',sans-serif;font-size:13px;color:var(--gray-600);transition:all .2s;display:flex;align-items:center;justify-content:center}
+.page-btn:hover{border-color:var(--gray-800);color:var(--gray-800)}
+.page-btn.active{background:var(--gray-800);color:#fff;border-color:var(--gray-800)}
+
+/* ─── PRODUCT DETAIL PAGE ─── */
+.detail-layout{max-width:1200px;margin:0 auto;padding:32px 1.5rem}
+.detail-grid{display:grid;grid-template-columns:1fr 1fr;gap:48px;align-items:start;margin-bottom:56px}
+/* gallery */
+.gallery{}
+.main-img{width:100%;aspect-ratio:1;background:var(--gray-50);border:.5px solid var(--gray-200);border-radius:16px;display:flex;align-items:center;justify-content:center;margin-bottom:12px;overflow:hidden;position:relative}
+.main-img-badge{position:absolute;top:16px;left:16px;background:var(--accent);color:#fff;font-size:11px;font-weight:600;padding:4px 12px;border-radius:6px}
+.thumbnails{display:flex;gap:8px}
+.thumb{width:68px;height:68px;background:var(--gray-50);border:.5px solid var(--gray-200);border-radius:8px;display:flex;align-items:center;justify-content:center;cursor:pointer;transition:all .2s;flex-shrink:0}
+.thumb.active,.thumb:hover{border-color:var(--gray-800)}
+/* info */
+.detail-info{}
+.detail-breadcrumb{font-size:12px;color:var(--gray-400);margin-bottom:12px}
+.detail-breadcrumb a{text-decoration:none;color:var(--gray-400)}
+.detail-cat{font-size:11px;font-weight:600;letter-spacing:1.5px;text-transform:uppercase;color:var(--accent);margin-bottom:8px}
+.detail-name{font-family:'Playfair Display',serif;font-size:clamp(22px,2.5vw,28px);color:var(--gray-800);line-height:1.25;margin-bottom:12px}
+.detail-rating{display:flex;align-items:center;gap:8px;margin-bottom:16px}
+.stars{color:#f0a500;font-size:14px;letter-spacing:1px}
+.rating-text{font-size:13px;color:var(--gray-600)}
+.detail-price-box{background:var(--gray-50);border:.5px solid var(--gray-200);border-radius:12px;padding:18px 20px;margin-bottom:20px}
+.detail-price{font-size:32px;font-weight:700;color:var(--gray-800);line-height:1}
+.detail-price-unit{font-size:14px;color:var(--gray-400);font-weight:400}
+.detail-price-bulk{display:flex;gap:16px;margin-top:10px;flex-wrap:wrap}
+.bulk-item{font-size:12px;color:var(--gray-600);background:var(--white);padding:4px 10px;border-radius:6px;border:.5px solid var(--gray-200)}
+.bulk-item strong{color:var(--accent)}
+.detail-badges{display:flex;gap:8px;flex-wrap:wrap;margin-bottom:18px}
+.dbadge{display:inline-flex;align-items:center;gap:5px;font-size:11px;font-weight:600;padding:4px 10px;border-radius:6px}
+.dbadge-mok{background:var(--gold-light);color:var(--gold);border:.5px solid var(--gold)}
+.dbadge-stock{background:#eaf3de;color:#3b6d11;border:.5px solid #97c459}
+.dbadge-ship{background:var(--gray-100);color:var(--gray-600);border:.5px solid var(--gray-200)}
+/* specs quick */
+.specs-quick{margin-bottom:20px}
+.specs-quick-grid{display:grid;grid-template-columns:1fr 1fr;gap:8px}
+.sq-item{background:var(--gray-50);border:.5px solid var(--gray-200);border-radius:8px;padding:10px 12px}
+.sq-label{font-size:10px;font-weight:600;letter-spacing:.8px;text-transform:uppercase;color:var(--gray-400);margin-bottom:2px}
+.sq-val{font-size:13px;font-weight:600;color:var(--gray-800)}
+/* qty & add */
+.buy-section{display:flex;flex-direction:column;gap:12px}
+.qty-row{display:flex;align-items:center;gap:12px}
+.qty-label{font-size:13px;font-weight:500;color:var(--gray-600);width:60px}
+.qty-ctrl{display:flex;align-items:center;border:.5px solid var(--gray-200);border-radius:8px;overflow:hidden}
+.qty-ctrl button{width:36px;height:36px;background:var(--gray-50);border:none;cursor:pointer;font-size:16px;color:var(--gray-800);transition:background .2s;display:flex;align-items:center;justify-content:center}
+.qty-ctrl button:hover{background:var(--gray-200)}
+.qty-ctrl input{width:52px;height:36px;border:none;border-left:.5px solid var(--gray-200);border-right:.5px solid var(--gray-200);text-align:center;font-family:'Sarabun',sans-serif;font-size:14px;font-weight:600;color:var(--gray-800);outline:none}
+.qty-unit{font-size:13px;color:var(--gray-400)}
+.btn-add-cart{width:100%;padding:14px;background:var(--gray-800);color:#fff;border:none;border-radius:10px;font-family:'Sarabun',sans-serif;font-size:15px;font-weight:600;cursor:pointer;transition:all .2s;display:flex;align-items:center;justify-content:center;gap:8px}
+.btn-add-cart:hover{background:var(--accent)}
+.btn-add-cart svg{width:18px;height:18px;fill:none;stroke:#fff;stroke-width:2}
+.btn-quote{width:100%;padding:12px;background:transparent;color:var(--gray-800);border:1.5px solid var(--gray-200);border-radius:10px;font-family:'Sarabun',sans-serif;font-size:14px;font-weight:500;cursor:pointer;transition:all .2s}
+.btn-quote:hover{border-color:var(--gray-800)}
+/* delivery info */
+.delivery-info{margin-top:12px;padding:14px;background:var(--gray-50);border-radius:10px;border:.5px solid var(--gray-200)}
+.di-row{display:flex;align-items:center;gap:10px;font-size:13px;color:var(--gray-600);margin-bottom:6px}
+.di-row:last-child{margin-bottom:0}
+.di-row svg{width:14px;height:14px;fill:none;stroke:var(--gray-400);stroke-width:2;flex-shrink:0}
+/* tabs */
+.detail-tabs{border-bottom:.5px solid var(--gray-200);display:flex;gap:0;margin-bottom:28px}
+.tab-btn{padding:12px 22px;border:none;background:transparent;font-family:'Sarabun',sans-serif;font-size:14px;font-weight:500;color:var(--gray-400);cursor:pointer;border-bottom:2px solid transparent;transition:all .2s;margin-bottom:-1px}
+.tab-btn.active{color:var(--gray-800);border-bottom-color:var(--gray-800)}
+.tab-btn:hover{color:var(--gray-800)}
+.tab-content{display:none}
+.tab-content.active{display:block}
+/* spec table */
+.spec-table{width:100%;border-collapse:collapse}
+.spec-table tr{border-bottom:.5px solid var(--gray-200)}
+.spec-table tr:last-child{border-bottom:none}
+.spec-table td{padding:12px 16px;font-size:14px}
+.spec-table td:first-child{color:var(--gray-600);width:40%;background:var(--gray-50);font-weight:500}
+.spec-table td:last-child{color:var(--gray-800)}
+/* reviews */
+.review-summary{display:flex;gap:32px;align-items:center;padding:20px;background:var(--gray-50);border-radius:12px;border:.5px solid var(--gray-200);margin-bottom:24px}
+.rev-big{text-align:center}
+.rev-big-num{font-size:48px;font-weight:700;color:var(--gray-800);line-height:1}
+.rev-big-stars{font-size:18px;color:#f0a500;margin:4px 0}
+.rev-big-count{font-size:12px;color:var(--gray-400)}
+.rev-bars{flex:1}
+.rev-bar-row{display:flex;align-items:center;gap:8px;margin-bottom:5px}
+.rev-bar-label{font-size:12px;color:var(--gray-600);width:32px;text-align:right;flex-shrink:0}
+.rev-bar-track{flex:1;height:6px;background:var(--gray-200);border-radius:3px;overflow:hidden}
+.rev-bar-fill{height:100%;background:var(--gray-800);border-radius:3px;transition:width .6s}
+.rev-bar-count{font-size:11px;color:var(--gray-400);width:24px;flex-shrink:0}
+.review-card{border:.5px solid var(--gray-200);border-radius:10px;padding:16px;margin-bottom:12px}
+.rev-header{display:flex;justify-content:space-between;align-items:flex-start;margin-bottom:8px}
+.rev-author{font-size:14px;font-weight:600;color:var(--gray-800)}
+.rev-date{font-size:12px;color:var(--gray-400)}
+.rev-stars{color:#f0a500;font-size:12px;margin-bottom:6px}
+.rev-text{font-size:13px;color:var(--gray-600);line-height:1.7}
+.rev-verified{display:inline-flex;align-items:center;gap:4px;font-size:10px;color:#3b6d11;font-weight:600;margin-top:6px}
+/* related */
+.related-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:14px}
+
+/* ─── TOAST ─── */
+.toast{position:fixed;bottom:24px;right:24px;background:var(--gray-800);color:#fff;padding:12px 20px;border-radius:10px;font-size:13px;font-weight:500;display:flex;align-items:center;gap:8px;z-index:999;transform:translateY(80px);opacity:0;transition:all .3s;pointer-events:none;max-width:280px}
+.toast.show{transform:translateY(0);opacity:1}
+.toast svg{width:16px;height:16px;fill:none;stroke:#fff;stroke-width:2;flex-shrink:0}
+
+/* ─── RESPONSIVE ─── */
+@media(max-width:1024px){
+  .shop-layout{grid-template-columns:200px 1fr;gap:24px}
+  .prod-grid-4{grid-template-columns:repeat(2,1fr)}
+  .detail-grid{grid-template-columns:1fr;gap:32px}
+  .related-grid{grid-template-columns:repeat(2,1fr)}
+}
+@media(max-width:768px){
+  .nav-links{display:none}
+  .hamburger{display:flex}
+  .shop-layout{grid-template-columns:1fr;gap:0}
+  .sidebar{position:static;display:none}
+  .sidebar.mobile-open{display:block;position:fixed;top:0;left:0;bottom:0;width:280px;background:#fff;z-index:300;overflow-y:auto;padding:20px;box-shadow:4px 0 24px rgba(0,0,0,.1)}
+  .sidebar-overlay{display:none;position:fixed;inset:0;background:rgba(0,0,0,.4);z-index:299}
+  .sidebar-overlay.show{display:block}
+  .filter-toggle-btn{display:flex!important}
+  .prod-grid-4{grid-template-columns:repeat(2,1fr)}
+  .related-grid{grid-template-columns:repeat(2,1fr)}
+  .nav-search{max-width:160px}
+  .detail-grid{gap:24px}
+  .specs-quick-grid{grid-template-columns:1fr 1fr}
+}
+@media(max-width:480px){
+  .prod-grid-4{grid-template-columns:1fr}
+  .related-grid{grid-template-columns:repeat(2,1fr)}
+  .nav-search{display:none}
+  .review-summary{flex-direction:column;gap:16px}
+}
+.filter-toggle-btn{display:none;align-items:center;gap:6px;padding:8px 14px;border:.5px solid var(--gray-200);border-radius:8px;background:#fff;font-family:'Sarabun',sans-serif;font-size:13px;cursor:pointer;transition:all .2s}
+.filter-toggle-btn:hover{border-color:var(--gray-800)}
+.filter-toggle-btn svg{width:14px;height:14px;fill:none;stroke:var(--gray-800);stroke-width:2}
+.sidebar-close{display:none;width:100%;padding:10px;background:var(--gray-800);color:#fff;border:none;border-radius:8px;font-family:'Sarabun',sans-serif;font-size:14px;font-weight:500;cursor:pointer;margin-bottom:20px}
+@media(max-width:768px){.sidebar-close{display:block}}
+</style>
+</head>
+<body>
+
+<!-- TOAST -->
+<div class="toast" id="toast">
+  <svg viewBox="0 0 24 24"><path d="M5 13l4 4L19 7"/></svg>
+  <span id="toastMsg">เพิ่มสินค้าลงตะกร้าแล้ว</span>
+</div>
+
+<!-- NAV -->
+<nav>
+  <div class="nav-inner">
+    <a class="logo" href="#" onclick="showPage('shop');return false">
+      <div class="logo-mark"><svg viewBox="0 0 24 24"><path d="M13 2L3 14h9l-1 8 10-12h-9l1-8z"/></svg></div>
+      <div class="logo-text">โวลต์<span>เทค</span></div>
+    </a>
+    <div class="nav-search">
+      <svg viewBox="0 0 24 24"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.35-4.35"/></svg>
+      <input type="text" placeholder="ค้นหาสินค้า...">
+    </div>
+    <ul class="nav-links">
+      <li><a href="#" onclick="showPage('shop');return false" class="active">สินค้า</a></li>
+      <li><a href="#">เบรกเกอร์</a></li>
+      <li><a href="#">ราคาส่ง</a></li>
+      <li><a href="#">ติดต่อเรา</a></li>
+    </ul>
+    <div class="nav-right">
+      <button class="cart-btn" id="cartBtn"><svg viewBox="0 0 24 24"><path d="M6 2 3 6v14a2 2 0 002 2h14a2 2 0 002-2V6l-3-4zM3 6h18M16 10a4 4 0 01-8 0"/></svg><div class="cart-badge" id="cartCount">0</div></button>
+      <button class="hamburger" id="ham"><span></span><span></span><span></span></button>
+    </div>
+  </div>
+</nav>
+<div class="mobile-menu" id="mobileMenu">
+  <ul>
+    <li><a href="#" onclick="showPage('shop');closeMobileMenu();return false">สินค้าทั้งหมด</a></li>
+    <li><a href="#">เบรกเกอร์</a></li>
+    <li><a href="#">ราคาส่ง</a></li>
+    <li><a href="#">ติดต่อเรา</a></li>
+  </ul>
+</div>
+
+<!-- ════════════════════════════════════════
+     PAGE: SHOP
+════════════════════════════════════════ -->
+<div class="page active" id="page-shop">
+  <div class="breadcrumb">
+    <div class="bc-inner">
+      <a href="#">หน้าแรก</a> › <span>สินค้าทั้งหมด</span>
+    </div>
+  </div>
+  <div class="shop-layout">
+    <!-- SIDEBAR OVERLAY -->
+    <div class="sidebar-overlay" id="sidebarOverlay" onclick="closeSidebar()"></div>
+    <!-- SIDEBAR -->
+    <aside class="sidebar" id="sidebar">
+      <button class="sidebar-close" onclick="closeSidebar()">✕ ปิดตัวกรอง</button>
+      <div class="sidebar-block">
+        <div class="sidebar-title">หมวดหมู่</div>
+        <ul class="filter-list">
+          <li class="filter-item"><label><input type="checkbox" checked> สายไฟทุกชนิด</label><span class="filter-count">412</span></li>
+          <li class="filter-item"><label><input type="checkbox"> เบรกเกอร์และตู้ไฟ</label><span class="filter-count">248</span></li>
+          <li class="filter-item"><label><input type="checkbox"> ปลั๊กและสวิตช์</label><span class="filter-count">603</span></li>
+          <li class="filter-item"><label><input type="checkbox"> หลอดไฟและโคม</label><span class="filter-count">354</span></li>
+          <li class="filter-item"><label><input type="checkbox"> อุปกรณ์ควบคุม</label><span class="filter-count">281</span></li>
+          <li class="filter-item"><label><input type="checkbox"> หม้อแปลงและ UPS</label><span class="filter-count">122</span></li>
+        </ul>
+      </div>
+      <div class="sidebar-block">
+        <div class="sidebar-title">ประเภทสาย</div>
+        <ul class="filter-list">
+          <li class="filter-item"><label><input type="checkbox" checked> NYY (ฝังดิน)</label><span class="filter-count">84</span></li>
+          <li class="filter-item"><label><input type="checkbox" checked> VAF (แบน)</label><span class="filter-count">62</span></li>
+          <li class="filter-item"><label><input type="checkbox"> THW (กลม)</label><span class="filter-count">95</span></li>
+          <li class="filter-item"><label><input type="checkbox"> CV (แรงสูง)</label><span class="filter-count">43</span></li>
+          <li class="filter-item"><label><input type="checkbox"> IEC01 (ทนไฟ)</label><span class="filter-count">28</span></li>
+          <li class="filter-item"><label><input type="checkbox"> THHN</label><span class="filter-count">56</span></li>
+        </ul>
+      </div>
+      <div class="sidebar-block">
+        <div class="sidebar-title">ยี่ห้อ</div>
+        <ul class="filter-list">
+          <li class="filter-item"><label><input type="checkbox"> Schneider</label><span class="filter-count">156</span></li>
+          <li class="filter-item"><label><input type="checkbox"> Panasonic</label><span class="filter-count">98</span></li>
+          <li class="filter-item"><label><input type="checkbox"> Thai Union</label><span class="filter-count">203</span></li>
+          <li class="filter-item"><label><input type="checkbox"> Legrand</label><span class="filter-count">74</span></li>
+          <li class="filter-item"><label><input type="checkbox"> Mitsubishi</label><span class="filter-count">45</span></li>
+        </ul>
+      </div>
+      <div class="sidebar-block">
+        <div class="sidebar-title">ช่วงราคา (บาท/เมตร)</div>
+        <div class="price-range">
+          <input type="range" min="0" max="500" value="300" id="priceRange" oninput="document.getElementById('priceMax').value=this.value">
+          <div class="price-inputs">
+            <input type="text" value="0" placeholder="ต่ำสุด">
+            <input type="text" id="priceMax" value="300" placeholder="สูงสุด">
+          </div>
+        </div>
+      </div>
+      <div class="sidebar-block">
+        <div class="sidebar-title">มาตรฐาน</div>
+        <ul class="filter-list">
+          <li class="filter-item"><label><input type="checkbox" checked> มาตรฐาน มอก.</label></li>
+          <li class="filter-item"><label><input type="checkbox"> IEC Standard</label></li>
+          <li class="filter-item"><label><input type="checkbox"> มี Stock พร้อมส่ง</label></li>
+        </ul>
+      </div>
+      <button class="clear-filters">ล้างตัวกรองทั้งหมด</button>
+    </aside>
+
+    <!-- MAIN -->
+    <div class="shop-main">
+      <div class="shop-toolbar">
+        <div style="display:flex;align-items:center;gap:10px;flex-wrap:wrap">
+          <button class="filter-toggle-btn" onclick="openSidebar()">
+            <svg viewBox="0 0 24 24"><path d="M3 4a1 1 0 011-1h16a1 1 0 011 1v2a1 1 0 01-.293.707l-6.414 6.414A1 1 0 0014 13.828V19a1 1 0 01-.553.894l-4 2A1 1 0 018 21v-7.172a1 1 0 00-.293-.707L1.293 6.707A1 1 0 011 6V4z"/></svg>
+            ตัวกรอง
+          </button>
+          <span class="result-count">แสดง <strong>147</strong> รายการ</span>
+        </div>
+        <div class="toolbar-right">
+          <select class="sort-select">
+            <option>เรียงตาม: แนะนำ</option>
+            <option>ราคา: ต่ำ → สูง</option>
+            <option>ราคา: สูง → ต่ำ</option>
+            <option>ขายดีที่สุด</option>
+            <option>ใหม่ล่าสุด</option>
+          </select>
+          <div class="view-btns">
+            <button class="view-btn active" id="gridViewBtn" onclick="setView('grid')" title="Grid view">
+              <svg viewBox="0 0 24 24"><rect x="3" y="3" width="7" height="7" rx="1"/><rect x="14" y="3" width="7" height="7" rx="1"/><rect x="3" y="14" width="7" height="7" rx="1"/><rect x="14" y="14" width="7" height="7" rx="1"/></svg>
+            </button>
+            <button class="view-btn" id="listViewBtn" onclick="setView('list')" title="List view">
+              <svg viewBox="0 0 24 24"><line x1="9" y1="6" x2="20" y2="6"/><line x1="9" y1="12" x2="20" y2="12"/><line x1="9" y1="18" x2="20" y2="18"/><circle cx="5" cy="6" r="1.5" fill="currentColor"/><circle cx="5" cy="12" r="1.5" fill="currentColor"/><circle cx="5" cy="18" r="1.5" fill="currentColor"/></svg>
+            </button>
+          </div>
+        </div>
+      </div>
+      <div class="active-filters">
+        <span class="filter-tag">สายไฟทุกชนิด ✕</span>
+        <span class="filter-tag">NYY ✕</span>
+        <span class="filter-tag">VAF ✕</span>
+        <span class="filter-tag">มอก. ✕</span>
+      </div>
+
+      <!-- GRID VIEW -->
+      <div class="prod-grid-4" id="gridView">
+        <!-- cards -->
+        <div class="pc" onclick="showPage('detail')">
+          <div class="pc-img"><div class="pc-badge">ขายดี</div><div class="pc-mok">มอก.</div><svg viewBox="0 0 80 60" fill="none" width="72"><rect x="5" y="25" width="70" height="10" rx="5" fill="#333"/><rect x="5" y="12" width="70" height="10" rx="5" fill="#e24b4a"/><rect x="5" y="38" width="70" height="10" rx="5" fill="#4a9eff"/></svg></div>
+          <div class="pc-body"><div class="pc-cat">สายไฟ</div><div class="pc-name">สาย NYY 2×1.5 mm² ฝังดิน</div><div class="pc-spec">300/500V · ทนความร้อน 70°C</div><div class="pc-footer"><div class="pc-price">฿85 <span class="pc-unit">/ม.</span></div><button class="add-btn" onclick="addCart(event)">+</button></div></div>
+        </div>
+        <div class="pc" onclick="showPage('detail')">
+          <div class="pc-img"><div class="pc-mok">มอก.</div><svg viewBox="0 0 80 60" fill="none" width="72"><rect x="5" y="22" width="70" height="16" rx="8" fill="#9a9890"/><rect x="8" y="25" width="64" height="10" rx="5" fill="#e24b4a"/><circle cx="40" cy="30" r="4" fill="#fff"/></svg></div>
+          <div class="pc-body"><div class="pc-cat">สายไฟ</div><div class="pc-name">สาย VAF 2×1.5 mm² แบน</div><div class="pc-spec">300/500V · ใช้ภายใน</div><div class="pc-footer"><div class="pc-price">฿28 <span class="pc-unit">/ม.</span></div><button class="add-btn" onclick="addCart(event)">+</button></div></div>
+        </div>
+        <div class="pc" onclick="showPage('detail')">
+          <div class="pc-img"><div class="pc-mok">มอก.</div><svg viewBox="0 0 80 60" fill="none" width="72"><rect x="5" y="23" width="70" height="14" rx="7" fill="#4a9eff"/><rect x="8" y="26" width="64" height="8" rx="4" fill="#e4e2dc"/></svg></div>
+          <div class="pc-body"><div class="pc-cat">สายไฟ</div><div class="pc-name">สาย THW 1×2.5 mm² สีฟ้า</div><div class="pc-spec">300/500V · ทั่วไป</div><div class="pc-footer"><div class="pc-price">฿18 <span class="pc-unit">/ม.</span></div><button class="add-btn" onclick="addCart(event)">+</button></div></div>
+        </div>
+        <div class="pc" onclick="showPage('detail')">
+          <div class="pc-img"><div class="pc-badge">ใหม่</div><div class="pc-mok">มอก.</div><svg viewBox="0 0 80 60" fill="none" width="72"><rect x="5" y="23" width="70" height="14" rx="7" fill="#2c9e2c"/><rect x="8" y="26" width="64" height="8" rx="4" fill="#e8e8e8"/></svg></div>
+          <div class="pc-body"><div class="pc-cat">สายไฟ</div><div class="pc-name">สาย CV 1×10 mm² แรงสูง</div><div class="pc-spec">0.6/1kV · โรงงาน</div><div class="pc-footer"><div class="pc-price">฿195 <span class="pc-unit">/ม.</span></div><button class="add-btn" onclick="addCart(event)">+</button></div></div>
+        </div>
+        <div class="pc" onclick="showPage('detail')">
+          <div class="pc-img"><svg viewBox="0 0 80 60" fill="none" width="72"><rect x="22" y="8" width="36" height="44" rx="4" fill="#e4e2dc"/><rect x="29" y="18" width="8" height="3" rx="1.5" fill="#333"/><rect x="43" y="18" width="8" height="3" rx="1.5" fill="#e24b4a"/><circle cx="40" cy="42" r="5" fill="#2c2c2a"/></svg></div>
+          <div class="pc-body"><div class="pc-cat">เบรกเกอร์</div><div class="pc-name">MCB Schneider 16A 1P</div><div class="pc-spec">Breaking 6kA · Curve C</div><div class="pc-footer"><div class="pc-price">฿320 <span class="pc-unit">/ชิ้น</span></div><button class="add-btn" onclick="addCart(event)">+</button></div></div>
+        </div>
+        <div class="pc" onclick="showPage('detail')">
+          <div class="pc-img"><svg viewBox="0 0 80 60" fill="none" width="72"><rect x="18" y="14" width="44" height="32" rx="6" fill="#e4e2dc"/><circle cx="32" cy="30" r="5" fill="#9a9890"/><circle cx="48" cy="30" r="5" fill="#9a9890"/><rect x="25" y="8" width="6" height="10" rx="3" fill="#5f5e5a"/><rect x="49" y="8" width="6" height="10" rx="3" fill="#5f5e5a"/></svg></div>
+          <div class="pc-body"><div class="pc-cat">ปลั๊ก</div><div class="pc-name">ปลั๊กพ่วง 4 ช่อง + USB</div><div class="pc-spec">ป้องกันไฟกระชาก · 10A</div><div class="pc-footer"><div class="pc-price">฿490 <span class="pc-unit">/ชิ้น</span></div><button class="add-btn" onclick="addCart(event)">+</button></div></div>
+        </div>
+      </div>
+
+      <!-- LIST VIEW -->
+      <div style="display:none" id="listView">
+        <div class="pc-list" onclick="showPage('detail')">
+          <div class="pc-list-img"><svg viewBox="0 0 80 60" fill="none" width="60"><rect x="5" y="25" width="70" height="10" rx="5" fill="#333"/><rect x="5" y="12" width="70" height="10" rx="5" fill="#e24b4a"/><rect x="5" y="38" width="70" height="10" rx="5" fill="#4a9eff"/></svg></div>
+          <div class="pc-list-body">
+            <div class="pc-cat" style="margin-bottom:3px">สายไฟ</div>
+            <div style="font-size:14px;font-weight:600;color:var(--gray-800);margin-bottom:2px">สาย NYY 2×1.5 mm² ฝังดิน</div>
+            <div style="font-size:12px;color:var(--gray-400)">300/500V · ทนความร้อน 70°C · มาตรฐาน มอก. 11-2531</div>
+          </div>
+          <div class="pc-list-footer">
+            <div class="pc-price">฿85 <span class="pc-unit">/ม.</span></div>
+            <button class="add-btn" onclick="addCart(event)">+</button>
+          </div>
+        </div>
+        <div class="pc-list" onclick="showPage('detail')">
+          <div class="pc-list-img"><svg viewBox="0 0 80 60" fill="none" width="60"><rect x="5" y="22" width="70" height="16" rx="8" fill="#9a9890"/><rect x="8" y="25" width="64" height="10" rx="5" fill="#e24b4a"/></svg></div>
+          <div class="pc-list-body">
+            <div class="pc-cat" style="margin-bottom:3px">สายไฟ</div>
+            <div style="font-size:14px;font-weight:600;color:var(--gray-800);margin-bottom:2px">สาย VAF 2×1.5 mm² แบน</div>
+            <div style="font-size:12px;color:var(--gray-400)">300/500V · ใช้ภายในอาคาร · ผ่านมาตรฐาน มอก.</div>
+          </div>
+          <div class="pc-list-footer">
+            <div class="pc-price">฿28 <span class="pc-unit">/ม.</span></div>
+            <button class="add-btn" onclick="addCart(event)">+</button>
+          </div>
+        </div>
+        <div class="pc-list" onclick="showPage('detail')">
+          <div class="pc-list-img"><svg viewBox="0 0 80 60" fill="none" width="60"><rect x="22" y="8" width="36" height="44" rx="4" fill="#e4e2dc"/><circle cx="40" cy="42" r="5" fill="#2c2c2a"/></svg></div>
+          <div class="pc-list-body">
+            <div class="pc-cat" style="margin-bottom:3px">เบรกเกอร์</div>
+            <div style="font-size:14px;font-weight:600;color:var(--gray-800);margin-bottom:2px">MCB Schneider 16A 1P Curve C</div>
+            <div style="font-size:12px;color:var(--gray-400)">Breaking Capacity 6kA · Din Rail · IEC60898</div>
+          </div>
+          <div class="pc-list-footer">
+            <div class="pc-price">฿320 <span class="pc-unit">/ชิ้น</span></div>
+            <button class="add-btn" onclick="addCart(event)">+</button>
+          </div>
+        </div>
+      </div>
+
+      <div class="pagination">
+        <button class="page-btn">‹</button>
+        <button class="page-btn active">1</button>
+        <button class="page-btn">2</button>
+        <button class="page-btn">3</button>
+        <button class="page-btn">…</button>
+        <button class="page-btn">12</button>
+        <button class="page-btn">›</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ════════════════════════════════════════
+     PAGE: PRODUCT DETAIL
+════════════════════════════════════════ -->
+<div class="page" id="page-detail">
+  <div class="breadcrumb">
+    <div class="bc-inner">
+      <a href="#" onclick="showPage('shop');return false">หน้าแรก</a> ›
+      <a href="#" onclick="showPage('shop');return false">สินค้าทั้งหมด</a> ›
+      <a href="#">สายไฟ</a> ›
+      <span>สาย NYY 2×1.5 mm²</span>
+    </div>
+  </div>
+
+  <div class="detail-layout">
+    <div class="detail-grid">
+      <!-- GALLERY -->
+      <div class="gallery">
+        <div class="main-img">
+          <div class="main-img-badge">ขายดีที่สุด</div>
+          <svg viewBox="0 0 300 300" fill="none" width="220">
+            <rect x="20" y="130" width="260" height="40" rx="20" fill="#333"/>
+            <rect x="20" y="80" width="260" height="40" rx="20" fill="#e24b4a"/>
+            <rect x="20" y="180" width="260" height="40" rx="20" fill="#4a9eff"/>
+            <rect x="20" y="30" width="260" height="40" rx="20" fill="#2c9e2c"/>
+            <rect x="20" y="230" width="260" height="40" rx="20" fill="#e8e200"/>
+          </svg>
+        </div>
+        <div class="thumbnails">
+          <div class="thumb active"><svg viewBox="0 0 50 40" fill="none" width="36"><rect x="2" y="15" width="46" height="10" rx="5" fill="#333"/><rect x="2" y="4" width="46" height="10" rx="5" fill="#e24b4a"/></svg></div>
+          <div class="thumb"><svg viewBox="0 0 50 40" fill="none" width="36"><rect x="2" y="10" width="46" height="20" rx="10" fill="#555"/></svg></div>
+          <div class="thumb"><svg viewBox="0 0 50 40" fill="none" width="36"><rect x="10" y="5" width="30" height="30" rx="4" fill="#e4e2dc"/><circle cx="25" cy="20" r="8" fill="#9a9890"/></svg></div>
+          <div class="thumb"><svg viewBox="0 0 50 40" fill="none" width="36"><rect x="4" y="15" width="42" height="10" rx="5" fill="#e24b4a"/></svg></div>
+        </div>
+      </div>
+
+      <!-- INFO -->
+      <div class="detail-info">
+        <div class="detail-cat">สายไฟ · NYY</div>
+        <h1 class="detail-name">สาย NYY 2×1.5 mm²<br>สายไฟฝังดินมาตรฐาน</h1>
+        <div class="detail-rating">
+          <span class="stars">★★★★★</span>
+          <span class="rating-text">4.9 (247 รีวิว)</span>
+          <span style="font-size:12px;color:var(--gray-400)">· สั่งซื้อแล้ว 1,842 ครั้ง</span>
+        </div>
+
+        <div class="detail-price-box">
+          <div class="detail-price">฿85 <span class="detail-price-unit">บาท/เมตร</span></div>
+          <div class="detail-price-bulk">
+            <div class="bulk-item">100+ ม. → <strong>฿79/ม.</strong></div>
+            <div class="bulk-item">500+ ม. → <strong>฿72/ม.</strong></div>
+            <div class="bulk-item">1,000+ ม. → <strong>฿68/ม.</strong></div>
+          </div>
+        </div>
+
+        <div class="detail-badges">
+          <span class="dbadge dbadge-mok">✓ มาตรฐาน มอก. 11-2531</span>
+          <span class="dbadge dbadge-stock">● มีสินค้า พร้อมส่ง</span>
+          <span class="dbadge dbadge-ship">🚚 ส่งทั่วไทย</span>
+        </div>
+
+        <div class="specs-quick">
+          <div class="specs-quick-grid">
+            <div class="sq-item"><div class="sq-label">แรงดัน</div><div class="sq-val">300/500V</div></div>
+            <div class="sq-item"><div class="sq-label">ขนาด</div><div class="sq-val">2×1.5 mm²</div></div>
+            <div class="sq-item"><div class="sq-label">ทนความร้อน</div><div class="sq-val">70°C</div></div>
+            <div class="sq-item"><div class="sq-label">ยี่ห้อ</div><div class="sq-val">Thai Union</div></div>
+          </div>
+        </div>
+
+        <div class="buy-section">
+          <div class="qty-row">
+            <span class="qty-label">จำนวน</span>
+            <div class="qty-ctrl">
+              <button onclick="changeQty(-1)">−</button>
+              <input type="number" id="qty" value="10" min="1">
+              <button onclick="changeQty(1)">+</button>
+            </div>
+            <span class="qty-unit">เมตร</span>
+          </div>
+          <button class="btn-add-cart" onclick="addCart(event)">
+            <svg viewBox="0 0 24 24"><path d="M6 2 3 6v14a2 2 0 002 2h14a2 2 0 002-2V6l-3-4zM3 6h18M16 10a4 4 0 01-8 0"/></svg>
+            เพิ่มลงตะกร้า
+          </button>
+          <button class="btn-quote">ขอใบเสนอราคาสำหรับโครงการ</button>
+        </div>
+
+        <div class="delivery-info">
+          <div class="di-row"><svg viewBox="0 0 24 24"><path d="M5 8h14M5 8a2 2 0 110-4h14a2 2 0 110 4M5 8v10a2 2 0 002 2h10a2 2 0 002-2V8"/></svg>สั่งก่อน 14:00 น. — ส่งวันนี้ทันที</div>
+          <div class="di-row"><svg viewBox="0 0 24 24"><path d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z"/></svg>รับประกันสินค้าคุณภาพ มอก. ทุกชิ้น</div>
+          <div class="di-row"><svg viewBox="0 0 24 24"><path d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15"/></svg>คืนสินค้าได้ภายใน 30 วัน</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- TABS -->
+    <div class="detail-tabs">
+      <button class="tab-btn active" onclick="switchTab('spec',this)">ข้อมูลจำเพาะ</button>
+      <button class="tab-btn" onclick="switchTab('usage',this)">วิธีการใช้งาน</button>
+      <button class="tab-btn" onclick="switchTab('review',this)">รีวิว (247)</button>
+    </div>
+
+    <div class="tab-content active" id="tab-spec">
+      <table class="spec-table">
+        <tr><td>ยี่ห้อ</td><td>Thai Union Electric</td></tr>
+        <tr><td>รุ่น</td><td>NYY 2×1.5 sq.mm.</td></tr>
+        <tr><td>มาตรฐาน</td><td>มอก. 11-2531 / IEC 60502-1</td></tr>
+        <tr><td>แรงดันใช้งาน</td><td>300/500V</td></tr>
+        <tr><td>จำนวนแกน × ขนาด</td><td>2 แกน × 1.5 mm²</td></tr>
+        <tr><td>ฉนวนชั้นนอก</td><td>PVC สีดำ</td></tr>
+        <tr><td>ฉนวนชั้นใน</td><td>PVC หลายสี (แดง, ดำ, น้ำเงิน)</td></tr>
+        <tr><td>อุณหภูมิสูงสุด</td><td>70°C</td></tr>
+        <tr><td>อุณหภูมิต่ำสุด</td><td>-15°C</td></tr>
+        <tr><td>รัศมีดัดงอต่ำสุด</td><td>7.5 × เส้นผ่าศูนย์กลางสาย</td></tr>
+        <tr><td>น้ำหนัก</td><td>ประมาณ 85 กรัม/เมตร</td></tr>
+        <tr><td>การใช้งาน</td><td>ฝังดินโดยตรง, เดินในท่อร้อยสาย</td></tr>
+      </table>
+    </div>
+
+    <div class="tab-content" id="tab-usage">
+      <div style="max-width:680px">
+        <h3 style="font-size:16px;font-weight:600;color:var(--gray-800);margin-bottom:12px">การติดตั้งสาย NYY</h3>
+        <p style="font-size:14px;color:var(--gray-600);line-height:1.9;margin-bottom:16px">สาย NYY เหมาะสำหรับการเดินสายไฟฟ้าฝังดินโดยตรง หรือเดินในท่อ PVC และท่อโลหะ เนื่องจากมีฉนวนชั้นนอกที่แข็งแรงทนทานต่อความชื้นและการกดทับ</p>
+        <div style="display:grid;grid-template-columns:1fr 1fr;gap:12px">
+          <div style="background:var(--gray-50);border:.5px solid var(--gray-200);border-radius:10px;padding:14px">
+            <div style="font-size:12px;font-weight:700;color:var(--accent);letter-spacing:.5px;margin-bottom:6px">✓ เหมาะกับ</div>
+            <ul style="font-size:13px;color:var(--gray-600);list-style:none;line-height:2">
+              <li>· ฝังดินโดยตรง</li><li>· เดินท่อใต้ดิน</li><li>· เชื่อมต่อตู้ไฟ</li><li>· งานก่อสร้าง</li>
+            </ul>
+          </div>
+          <div style="background:var(--accent-light);border:.5px solid #f0c0bc;border-radius:10px;padding:14px">
+            <div style="font-size:12px;font-weight:700;color:var(--accent);letter-spacing:.5px;margin-bottom:6px">✗ ไม่เหมาะกับ</div>
+            <ul style="font-size:13px;color:var(--gray-600);list-style:none;line-height:2">
+              <li>· เดินบนผนังเปิด</li><li>· บริเวณที่มีสารเคมี</li><li>· อุณหภูมิเกิน 70°C</li><li>· พื้นที่ระเบิดได้</li>
+            </ul>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="tab-content" id="tab-review">
+      <div class="review-summary">
+        <div class="rev-big">
+          <div class="rev-big-num">4.9</div>
+          <div class="rev-big-stars">★★★★★</div>
+          <div class="rev-big-count">247 รีวิว</div>
+        </div>
+        <div class="rev-bars">
+          <div class="rev-bar-row"><span class="rev-bar-label">5★</span><div class="rev-bar-track"><div class="rev-bar-fill" style="width:88%"></div></div><span class="rev-bar-count">218</span></div>
+          <div class="rev-bar-row"><span class="rev-bar-label">4★</span><div class="rev-bar-track"><div class="rev-bar-fill" style="width:8%"></div></div><span class="rev-bar-count">20</span></div>
+          <div class="rev-bar-row"><span class="rev-bar-label">3★</span><div class="rev-bar-track"><div class="rev-bar-fill" style="width:3%"></div></div><span class="rev-bar-count">7</span></div>
+          <div class="rev-bar-row"><span class="rev-bar-label">2★</span><div class="rev-bar-track"><div class="rev-bar-fill" style="width:1%"></div></div><span class="rev-bar-count">2</span></div>
+          <div class="rev-bar-row"><span class="rev-bar-label">1★</span><div class="rev-bar-track"><div class="rev-bar-fill" style="width:0%"></div></div><span class="rev-bar-count">0</span></div>
+        </div>
+      </div>
+      <div class="review-card">
+        <div class="rev-header"><div><div class="rev-author">สมชาย ก.</div><div class="rev-stars">★★★★★</div></div><div class="rev-date">15 ก.พ. 2568</div></div>
+        <div class="rev-text">สายไฟคุณภาพดีมาก ฉนวนหนา ยืดหยุ่นดี ใช้กับโครงการบ้านพักอาศัย 20 หลัง ไม่มีปัญหาเลย ส่งของเร็วมาก สั่งวันนี้ได้รับพรุ่งนี้</div>
+        <div class="rev-verified">✓ ซื้อจริง</div>
+      </div>
+      <div class="review-card">
+        <div class="rev-header"><div><div class="rev-author">วิชัย ร.</div><div class="rev-stars">★★★★★</div></div><div class="rev-date">3 ม.ค. 2568</div></div>
+        <div class="rev-text">ใช้มาหลายปีแล้ว เป็นร้านประจำ สายได้มาตรฐาน มอก. จริง ราคาถูกกว่าหน้าร้านทั่วไป แนะนำสำหรับช่างและผู้รับเหมาครับ</div>
+        <div class="rev-verified">✓ ซื้อจริง</div>
+      </div>
+    </div>
+
+    <!-- RELATED -->
+    <div style="margin-top:52px">
+      <div class="section-tag" style="font-size:11px;font-weight:600;letter-spacing:2px;color:var(--accent);text-transform:uppercase;margin-bottom:8px">สินค้าที่เกี่ยวข้อง</div>
+      <h2 style="font-family:'Playfair Display',serif;font-size:24px;color:var(--gray-800);margin-bottom:20px">คุณอาจสนใจ</h2>
+      <div class="related-grid">
+        <div class="pc" onclick="void(0)">
+          <div class="pc-img"><div class="pc-mok">มอก.</div><svg viewBox="0 0 80 60" fill="none" width="72"><rect x="5" y="22" width="70" height="16" rx="8" fill="#9a9890"/><rect x="8" y="25" width="64" height="10" rx="5" fill="#e24b4a"/></svg></div>
+          <div class="pc-body"><div class="pc-cat">สายไฟ</div><div class="pc-name">สาย NYY 2×2.5 mm²</div><div class="pc-spec">ฝังดิน · 300/500V</div><div class="pc-footer"><div class="pc-price">฿120 <span class="pc-unit">/ม.</span></div><button class="add-btn" onclick="addCart(event)">+</button></div></div>
+        </div>
+        <div class="pc" onclick="void(0)">
+          <div class="pc-img"><svg viewBox="0 0 80 60" fill="none" width="72"><rect x="5" y="23" width="70" height="14" rx="7" fill="#333"/><rect x="8" y="26" width="64" height="8" rx="4" fill="#e4e2dc"/></svg></div>
+          <div class="pc-body"><div class="pc-cat">สายไฟ</div><div class="pc-name">สาย NYY 3×1.5 mm²</div><div class="pc-spec">ฝังดิน 3 แกน</div><div class="pc-footer"><div class="pc-price">฿115 <span class="pc-unit">/ม.</span></div><button class="add-btn" onclick="addCart(event)">+</button></div></div>
+        </div>
+        <div class="pc" onclick="void(0)">
+          <div class="pc-img"><svg viewBox="0 0 80 60" fill="none" width="72"><rect x="22" y="8" width="36" height="44" rx="4" fill="#e4e2dc"/><circle cx="40" cy="42" r="5" fill="#2c2c2a"/></svg></div>
+          <div class="pc-body"><div class="pc-cat">เบรกเกอร์</div><div class="pc-name">MCB 16A 2P Curve C</div><div class="pc-spec">Breaking 6kA</div><div class="pc-footer"><div class="pc-price">฿580 <span class="pc-unit">/ชิ้น</span></div><button class="add-btn" onclick="addCart(event)">+</button></div></div>
+        </div>
+        <div class="pc" onclick="void(0)">
+          <div class="pc-img"><svg viewBox="0 0 80 60" fill="none" width="72"><rect x="5" y="25" width="70" height="10" rx="5" fill="#2c9e2c"/><rect x="5" y="38" width="70" height="10" rx="5" fill="#e8e8e8"/></svg></div>
+          <div class="pc-body"><div class="pc-cat">สายไฟ</div><div class="pc-name">สาย NYY 4×2.5 mm²</div><div class="pc-spec">ฝังดิน 4 แกน</div><div class="pc-footer"><div class="pc-price">฿245 <span class="pc-unit">/ม.</span></div><button class="add-btn" onclick="addCart(event)">+</button></div></div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<script>
+let cartCount = 0;
+
+function showPage(name) {
+  document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
+  document.getElementById('page-' + name).classList.add('active');
+  window.scrollTo({top:0, behavior:'smooth'});
+}
+
+function setView(v) {
+  const grid = document.getElementById('gridView');
+  const list = document.getElementById('listView');
+  const gb = document.getElementById('gridViewBtn');
+  const lb = document.getElementById('listViewBtn');
+  if(v === 'grid') {
+    grid.style.display = 'grid';
+    list.style.display = 'none';
+    gb.classList.add('active');
+    lb.classList.remove('active');
+  } else {
+    grid.style.display = 'none';
+    list.style.display = 'block';
+    lb.classList.add('active');
+    gb.classList.remove('active');
+  }
+}
+
+function switchTab(id, btn) {
+  document.querySelectorAll('.tab-content').forEach(t => t.classList.remove('active'));
+  document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
+  document.getElementById('tab-' + id).classList.add('active');
+  btn.classList.add('active');
+}
+
+function changeQty(d) {
+  const inp = document.getElementById('qty');
+  let v = parseInt(inp.value) + d;
+  if(v < 1) v = 1;
+  inp.value = v;
+}
+
+function addCart(e) {
+  e.stopPropagation();
+  cartCount++;
+  document.getElementById('cartCount').textContent = cartCount;
+  showToast('เพิ่มสินค้าลงตะกร้าแล้ว');
+}
+
+function showToast(msg) {
+  const t = document.getElementById('toast');
+  document.getElementById('toastMsg').textContent = msg;
+  t.classList.add('show');
+  setTimeout(() => t.classList.remove('show'), 2500);
+}
+
+const ham = document.getElementById('ham');
+const mm = document.getElementById('mobileMenu');
+ham.addEventListener('click', () => { ham.classList.toggle('open'); mm.classList.toggle('open'); });
+
+function closeMobileMenu() { ham.classList.remove('open'); mm.classList.remove('open'); }
+
+function openSidebar() {
+  document.getElementById('sidebar').classList.add('mobile-open');
+  document.getElementById('sidebarOverlay').classList.add('show');
+}
+function closeSidebar() {
+  document.getElementById('sidebar').classList.remove('mobile-open');
+  document.getElementById('sidebarOverlay').classList.remove('show');
+}
+</script>
+</body>
+</html>
