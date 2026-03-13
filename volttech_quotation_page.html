@@ -1,0 +1,593 @@
+<!DOCTYPE html>
+<html lang="th">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>โวลต์เทค | ขอใบเสนอราคา</title>
+<link href="https://fonts.googleapis.com/css2?family=Sarabun:wght@300;400;500;600;700&family=Playfair+Display:wght@700&display=swap" rel="stylesheet">
+<style>
+*{margin:0;padding:0;box-sizing:border-box}
+:root{
+  --white:#fff;--gray-50:#f9f9f7;--gray-100:#f2f1ee;--gray-200:#e4e2dc;
+  --gray-400:#9a9890;--gray-600:#5f5e5a;--gray-800:#2c2c2a;
+  --accent:#e24b4a;--accent-light:#faece7;--gold:#ba7517;--gold-light:#faeeda;
+  --green:#3b6d11;--green-light:#eaf3de;
+}
+body{font-family:'Sarabun',sans-serif;color:var(--gray-800);background:var(--gray-50);line-height:1.7;min-height:100vh}
+
+/* NAV */
+nav{background:rgba(255,255,255,.96);backdrop-filter:blur(8px);border-bottom:.5px solid var(--gray-200);position:sticky;top:0;z-index:100}
+.nav-inner{max-width:1100px;margin:0 auto;padding:0 1.5rem;display:flex;align-items:center;justify-content:space-between;height:60px}
+.logo{display:flex;align-items:center;gap:8px;text-decoration:none}
+.logo-mark{width:32px;height:32px;background:var(--gray-800);border-radius:6px;display:flex;align-items:center;justify-content:center}
+.logo-mark svg{width:16px;height:16px;fill:none;stroke:#fff;stroke-width:2}
+.logo-text{font-size:16px;font-weight:700;color:var(--gray-800)}
+.logo-text span{color:var(--accent)}
+.nav-back{display:flex;align-items:center;gap:6px;font-size:13px;color:var(--gray-600);text-decoration:none;border:.5px solid var(--gray-200);padding:6px 14px;border-radius:8px;transition:all .2s}
+.nav-back:hover{border-color:var(--gray-800);color:var(--gray-800)}
+.nav-back svg{width:14px;height:14px;fill:none;stroke:currentColor;stroke-width:2}
+
+/* HERO STRIP */
+.hero-strip{background:var(--gray-800);padding:28px 1.5rem}
+.hs-inner{max-width:1100px;margin:0 auto;display:flex;align-items:center;justify-content:space-between;gap:20px;flex-wrap:wrap}
+.hs-title{font-family:'Playfair Display',serif;font-size:clamp(22px,3vw,30px);color:#fff;line-height:1.2}
+.hs-title span{color:#f0a500}
+.hs-desc{font-size:13px;color:rgba(255,255,255,.6);margin-top:4px}
+.hs-badges{display:flex;gap:8px;flex-wrap:wrap}
+.hs-badge{display:flex;align-items:center;gap:6px;background:rgba(255,255,255,.08);border:.5px solid rgba(255,255,255,.15);border-radius:8px;padding:8px 14px;font-size:12px;color:rgba(255,255,255,.8)}
+.hs-badge svg{width:14px;height:14px;fill:none;stroke:rgba(255,255,255,.6);stroke-width:2;flex-shrink:0}
+
+/* BREADCRUMB */
+.breadcrumb{background:var(--white);border-bottom:.5px solid var(--gray-200);padding:10px 1.5rem}
+.bc-inner{max-width:1100px;margin:0 auto;display:flex;align-items:center;gap:6px;font-size:12px;color:var(--gray-400);flex-wrap:wrap}
+.bc-inner a{text-decoration:none;color:var(--gray-400);transition:color .2s}
+.bc-inner a:hover{color:var(--gray-800)}
+.bc-inner span{color:var(--gray-800);font-weight:500}
+
+/* STEPS */
+.steps-bar{background:var(--white);border-bottom:.5px solid var(--gray-200);padding:16px 1.5rem}
+.steps-inner{max-width:1100px;margin:0 auto;display:flex;align-items:center;gap:0}
+.step{display:flex;align-items:center;gap:8px;flex:1}
+.step-dot{width:28px;height:28px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:12px;font-weight:700;flex-shrink:0;transition:all .3s}
+.step-dot.done{background:var(--gray-800);color:#fff}
+.step-dot.active{background:var(--accent);color:#fff}
+.step-dot.idle{background:var(--gray-100);color:var(--gray-400);border:.5px solid var(--gray-200)}
+.step-label{font-size:13px;font-weight:500;white-space:nowrap}
+.step-label.active{color:var(--gray-800)}
+.step-label.idle{color:var(--gray-400)}
+.step-line{flex:1;height:.5px;background:var(--gray-200);margin:0 8px;min-width:20px}
+.step-line.done{background:var(--gray-800)}
+
+/* LAYOUT */
+.main-wrap{max-width:1100px;margin:0 auto;padding:32px 1.5rem;display:grid;grid-template-columns:1fr 360px;gap:24px;align-items:start}
+
+/* FORM CARD */
+.form-card{background:var(--white);border:.5px solid var(--gray-200);border-radius:14px;overflow:hidden}
+.fc-header{padding:20px 24px;border-bottom:.5px solid var(--gray-200);display:flex;align-items:center;gap:10px}
+.fc-icon{width:36px;height:36px;background:var(--gray-50);border-radius:8px;display:flex;align-items:center;justify-content:center;flex-shrink:0}
+.fc-icon svg{width:18px;height:18px;fill:none;stroke:var(--gray-800);stroke-width:1.8}
+.fc-title{font-size:15px;font-weight:600;color:var(--gray-800)}
+.fc-subtitle{font-size:12px;color:var(--gray-400)}
+.fc-body{padding:24px}
+.fc-body + .fc-body{border-top:.5px solid var(--gray-200)}
+
+/* FORM FIELDS */
+.form-row{display:grid;grid-template-columns:1fr 1fr;gap:14px;margin-bottom:14px}
+.form-row.single{grid-template-columns:1fr}
+.form-row.triple{grid-template-columns:1fr 1fr 1fr}
+.field{}
+.field label{display:block;font-size:12px;font-weight:600;color:var(--gray-600);margin-bottom:5px;letter-spacing:.3px}
+.field label span.req{color:var(--accent)}
+.field input,.field select,.field textarea{width:100%;padding:9px 13px;border:.5px solid var(--gray-200);border-radius:8px;font-family:'Sarabun',sans-serif;font-size:13px;color:var(--gray-800);background:#fff;outline:none;transition:border-color .2s;-webkit-appearance:none}
+.field input:focus,.field select:focus,.field textarea:focus{border-color:var(--gray-800)}
+.field input::placeholder,.field textarea::placeholder{color:var(--gray-400)}
+.field textarea{resize:vertical;min-height:80px;line-height:1.6}
+.field select{background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='8' viewBox='0 0 12 8'%3E%3Cpath d='M1 1l5 5 5-5' stroke='%239a9890' stroke-width='1.5' fill='none' stroke-linecap='round'/%3E%3C/svg%3E");background-repeat:no-repeat;background-position:right 12px center;padding-right:32px;cursor:pointer}
+.field-hint{font-size:11px;color:var(--gray-400);margin-top:4px}
+
+/* PROJECT TYPE PILLS */
+.type-pills{display:flex;gap:8px;flex-wrap:wrap;margin-bottom:14px}
+.type-pill{padding:6px 14px;border:.5px solid var(--gray-200);border-radius:20px;font-size:12px;font-weight:500;color:var(--gray-600);cursor:pointer;transition:all .2s;white-space:nowrap}
+.type-pill:hover{border-color:var(--gray-800);color:var(--gray-800)}
+.type-pill.active{background:var(--gray-800);color:#fff;border-color:var(--gray-800)}
+
+/* ITEMS TABLE */
+.items-section{margin-bottom:0}
+.items-table{width:100%;border-collapse:collapse}
+.items-table th{font-size:11px;font-weight:600;letter-spacing:.8px;text-transform:uppercase;color:var(--gray-400);padding:8px 10px;text-align:left;border-bottom:.5px solid var(--gray-200);white-space:nowrap}
+.items-table th:last-child{text-align:right}
+.items-table td{padding:8px 6px;vertical-align:middle;border-bottom:.5px solid var(--gray-100)}
+.items-table tr:last-child td{border-bottom:none}
+.item-input{width:100%;padding:7px 10px;border:.5px solid var(--gray-200);border-radius:6px;font-family:'Sarabun',sans-serif;font-size:12px;color:var(--gray-800);outline:none;transition:border-color .2s;background:#fff}
+.item-input:focus{border-color:var(--gray-800)}
+.item-input.product-name{min-width:160px}
+.item-input.unit{width:70px;text-align:center}
+.item-input.qty{width:60px;text-align:center}
+.item-subtotal{font-size:13px;font-weight:600;color:var(--gray-800);text-align:right;min-width:80px;padding-right:4px}
+.del-btn{width:26px;height:26px;background:transparent;border:.5px solid var(--gray-200);border-radius:6px;cursor:pointer;display:flex;align-items:center;justify-content:center;transition:all .2s;color:var(--gray-400);font-size:14px;flex-shrink:0}
+.del-btn:hover{background:var(--accent-light);border-color:var(--accent);color:var(--accent)}
+.add-item-btn{display:flex;align-items:center;gap:6px;padding:9px 16px;border:.5px dashed var(--gray-200);border-radius:8px;background:transparent;font-family:'Sarabun',sans-serif;font-size:13px;color:var(--gray-600);cursor:pointer;width:100%;margin-top:10px;transition:all .2s;justify-content:center}
+.add-item-btn:hover{border-color:var(--gray-800);color:var(--gray-800);background:var(--gray-50)}
+
+/* UPLOAD */
+.upload-zone{border:.5px dashed var(--gray-200);border-radius:10px;padding:24px;text-align:center;cursor:pointer;transition:all .2s;background:var(--gray-50)}
+.upload-zone:hover{border-color:var(--gray-800);background:#fff}
+.upload-zone svg{width:32px;height:32px;fill:none;stroke:var(--gray-400);stroke-width:1.5;margin-bottom:8px}
+.upload-zone p{font-size:13px;color:var(--gray-600)}
+.upload-zone span{font-size:11px;color:var(--gray-400);display:block;margin-top:3px}
+.file-list{margin-top:10px;display:flex;flex-direction:column;gap:6px}
+.file-item{display:flex;align-items:center;gap:8px;background:var(--white);border:.5px solid var(--gray-200);border-radius:8px;padding:8px 12px}
+.file-icon{width:28px;height:28px;background:var(--gray-100);border-radius:5px;display:flex;align-items:center;justify-content:center;flex-shrink:0}
+.file-icon svg{width:14px;height:14px;fill:none;stroke:var(--gray-600);stroke-width:2}
+.file-name{font-size:12px;color:var(--gray-800);flex:1}
+.file-size{font-size:11px;color:var(--gray-400)}
+
+/* SUMMARY CARD */
+.summary-card{background:var(--white);border:.5px solid var(--gray-200);border-radius:14px;overflow:hidden;position:sticky;top:76px}
+.sc-header{padding:18px 20px;border-bottom:.5px solid var(--gray-200);background:var(--gray-50)}
+.sc-title{font-size:14px;font-weight:600;color:var(--gray-800)}
+.sc-body{padding:20px}
+.summary-rows{}
+.sr-row{display:flex;justify-content:space-between;align-items:center;padding:7px 0;border-bottom:.5px solid var(--gray-100);font-size:13px}
+.sr-row:last-child{border-bottom:none}
+.sr-label{color:var(--gray-600)}
+.sr-val{font-weight:500;color:var(--gray-800)}
+.sr-total{border-top:.5px solid var(--gray-200);padding-top:12px;margin-top:4px}
+.sr-total .sr-label{font-size:14px;font-weight:600;color:var(--gray-800)}
+.sr-total .sr-val{font-size:20px;font-weight:700;color:var(--gray-800)}
+.vat-note{font-size:11px;color:var(--gray-400);text-align:right;margin-top:3px;margin-bottom:14px}
+
+/* DELIVERY OPTION */
+.delivery-opts{display:flex;flex-direction:column;gap:6px;margin-bottom:16px}
+.del-opt{display:flex;align-items:flex-start;gap:10px;padding:10px 12px;border:.5px solid var(--gray-200);border-radius:8px;cursor:pointer;transition:all .2s}
+.del-opt:hover,.del-opt.active{border-color:var(--gray-800);background:var(--gray-50)}
+.del-opt input[type=radio]{margin-top:2px;accent-color:var(--gray-800);flex-shrink:0}
+.del-opt-body{}
+.del-opt-name{font-size:13px;font-weight:600;color:var(--gray-800)}
+.del-opt-detail{font-size:11px;color:var(--gray-400)}
+.del-opt-price{margin-left:auto;font-size:13px;font-weight:600;color:var(--gray-800);flex-shrink:0}
+
+/* CONTACT PREF */
+.contact-prefs{display:flex;gap:6px;flex-wrap:wrap;margin-bottom:16px}
+.cp{padding:6px 14px;border:.5px solid var(--gray-200);border-radius:20px;font-size:12px;font-weight:500;color:var(--gray-600);cursor:pointer;transition:all .2s}
+.cp:hover{border-color:var(--gray-800)}
+.cp.active{background:var(--gray-800);color:#fff;border-color:var(--gray-800)}
+
+/* SUBMIT BTN */
+.submit-btn{width:100%;padding:14px;background:var(--gray-800);color:#fff;border:none;border-radius:10px;font-family:'Sarabun',sans-serif;font-size:15px;font-weight:600;cursor:pointer;transition:all .2s;display:flex;align-items:center;justify-content:center;gap:8px}
+.submit-btn:hover{background:var(--accent)}
+.submit-btn svg{width:18px;height:18px;fill:none;stroke:#fff;stroke-width:2}
+.submit-note{font-size:11px;color:var(--gray-400);text-align:center;margin-top:8px;line-height:1.6}
+
+/* DISCOUNT TAG */
+.discount-tag{display:flex;align-items:center;gap:6px;background:var(--green-light);color:var(--green);border:.5px solid #97c459;border-radius:8px;padding:8px 12px;font-size:12px;font-weight:500;margin-bottom:14px}
+.discount-tag svg{width:14px;height:14px;fill:none;stroke:currentColor;stroke-width:2;flex-shrink:0}
+
+/* SUCCESS OVERLAY */
+.success-overlay{display:none;position:fixed;inset:0;background:rgba(0,0,0,.5);z-index:500;align-items:center;justify-content:center;padding:20px}
+.success-overlay.show{display:flex}
+.success-box{background:#fff;border-radius:20px;padding:40px 36px;max-width:440px;width:100%;text-align:center}
+.success-icon{width:72px;height:72px;background:var(--green-light);border-radius:50%;display:flex;align-items:center;justify-content:center;margin:0 auto 20px}
+.success-icon svg{width:36px;height:36px;fill:none;stroke:var(--green);stroke-width:2}
+.success-title{font-family:'Playfair Display',serif;font-size:24px;color:var(--gray-800);margin-bottom:8px}
+.success-desc{font-size:14px;color:var(--gray-600);line-height:1.8;margin-bottom:24px}
+.success-ref{background:var(--gray-50);border:.5px solid var(--gray-200);border-radius:10px;padding:12px;margin-bottom:24px}
+.success-ref-label{font-size:11px;color:var(--gray-400);margin-bottom:3px}
+.success-ref-num{font-size:20px;font-weight:700;color:var(--gray-800);letter-spacing:1px}
+.success-close{width:100%;padding:12px;background:var(--gray-800);color:#fff;border:none;border-radius:10px;font-family:'Sarabun',sans-serif;font-size:14px;font-weight:600;cursor:pointer;transition:background .2s}
+.success-close:hover{background:var(--accent)}
+
+/* TOAST */
+.toast{position:fixed;bottom:24px;right:24px;background:var(--gray-800);color:#fff;padding:11px 18px;border-radius:10px;font-size:13px;display:flex;align-items:center;gap:8px;z-index:999;transform:translateY(60px);opacity:0;transition:all .3s;pointer-events:none}
+.toast.show{transform:translateY(0);opacity:1}
+.toast svg{width:15px;height:15px;fill:none;stroke:#fff;stroke-width:2;flex-shrink:0}
+
+/* RESPONSIVE */
+@media(max-width:900px){
+  .main-wrap{grid-template-columns:1fr;gap:20px}
+  .summary-card{position:static}
+  .hs-badges{display:none}
+}
+@media(max-width:600px){
+  .form-row{grid-template-columns:1fr}
+  .form-row.triple{grid-template-columns:1fr 1fr}
+  .steps-bar{padding:12px 1rem;overflow-x:auto}
+  .step-label{display:none}
+  .step-label.active{display:block}
+  .main-wrap{padding:20px 1rem}
+  .fc-body{padding:16px}
+  .hero-strip{padding:20px 1rem}
+  .items-table th:nth-child(2),.items-table td:nth-child(2){display:none}
+}
+</style>
+</head>
+<body>
+
+<!-- SUCCESS OVERLAY -->
+<div class="success-overlay" id="successOverlay">
+  <div class="success-box">
+    <div class="success-icon"><svg viewBox="0 0 24 24"><path d="M5 13l4 4L19 7"/></svg></div>
+    <div class="success-title">ส่งคำขอแล้ว!</div>
+    <div class="success-desc">ทีมงานของเราจะติดต่อกลับภายใน <strong>24 ชั่วโมง</strong> พร้อมใบเสนอราคาที่ดีที่สุดสำหรับโครงการของคุณ</div>
+    <div class="success-ref">
+      <div class="success-ref-label">หมายเลขอ้างอิง</div>
+      <div class="success-ref-num" id="refNum">VT-2025-08419</div>
+    </div>
+    <button class="success-close" onclick="document.getElementById('successOverlay').classList.remove('show')">กลับหน้าหลัก</button>
+  </div>
+</div>
+
+<!-- TOAST -->
+<div class="toast" id="toast"><svg viewBox="0 0 24 24"><path d="M5 13l4 4L19 7"/></svg><span id="toastMsg"></span></div>
+
+<!-- NAV -->
+<nav>
+  <div class="nav-inner">
+    <a class="logo" href="#">
+      <div class="logo-mark"><svg viewBox="0 0 24 24"><path d="M13 2L3 14h9l-1 8 10-12h-9l1-8z"/></svg></div>
+      <div class="logo-text">โวลต์<span>เทค</span></div>
+    </a>
+    <a href="#" class="nav-back">
+      <svg viewBox="0 0 24 24"><path d="M19 12H5M12 5l-7 7 7 7"/></svg>
+      กลับหน้าสินค้า
+    </a>
+  </div>
+</nav>
+
+<!-- BREADCRUMB -->
+<div class="breadcrumb">
+  <div class="bc-inner">
+    <a href="#">หน้าแรก</a> ›
+    <a href="#">สินค้าทั้งหมด</a> ›
+    <span>ขอใบเสนอราคา</span>
+  </div>
+</div>
+
+<!-- HERO STRIP -->
+<div class="hero-strip">
+  <div class="hs-inner">
+    <div>
+      <div class="hs-title">ขอ<span>ใบเสนอราคา</span>พิเศษ</div>
+      <div class="hs-desc">สำหรับโครงการ ผู้รับเหมา และร้านค้า — ราคาพิเศษตามปริมาณ</div>
+    </div>
+    <div class="hs-badges">
+      <div class="hs-badge"><svg viewBox="0 0 24 24"><path d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"/></svg>ตอบกลับภายใน 24 ชม.</div>
+      <div class="hs-badge"><svg viewBox="0 0 24 24"><path d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z"/></svg>ราคามาตรฐาน มอก.</div>
+      <div class="hs-badge"><svg viewBox="0 0 24 24"><path d="M12 8c-1.657 0-3 .895-3 2s1.343 2 3 2 3 .895 3 2-1.343 2-3 2m0-8c1.11 0 2.08.402 2.599 1M12 8V7m0 1v8m0 0v1m0-1c-1.11 0-2.08-.402-2.599-1M21 12a9 9 0 11-18 0 9 9 0 0118 0z"/></svg>ราคาพิเศษ 100+ เมตร</div>
+    </div>
+  </div>
+</div>
+
+<!-- STEPS -->
+<div class="steps-bar">
+  <div class="steps-inner">
+    <div class="step">
+      <div class="step-dot active">1</div>
+      <span class="step-label active">กรอกข้อมูล</span>
+    </div>
+    <div class="step-line"></div>
+    <div class="step">
+      <div class="step-dot idle">2</div>
+      <span class="step-label idle">รอยืนยัน</span>
+    </div>
+    <div class="step-line"></div>
+    <div class="step">
+      <div class="step-dot idle">3</div>
+      <span class="step-label idle">รับใบเสนอราคา</span>
+    </div>
+    <div class="step-line"></div>
+    <div class="step">
+      <div class="step-dot idle">4</div>
+      <span class="step-label idle">ยืนยันสั่งซื้อ</span>
+    </div>
+  </div>
+</div>
+
+<!-- MAIN -->
+<div class="main-wrap">
+  <!-- LEFT: FORMS -->
+  <div style="display:flex;flex-direction:column;gap:16px">
+
+    <!-- 1. ข้อมูลองค์กร -->
+    <div class="form-card">
+      <div class="fc-header">
+        <div class="fc-icon"><svg viewBox="0 0 24 24"><path d="M19 21V5a2 2 0 00-2-2H7a2 2 0 00-2 2v16m14 0h2m-2 0h-5m-9 0H3m2 0h5M9 7h1m-1 4h1m4-4h1m-1 4h1m-5 10v-5a1 1 0 011-1h2a1 1 0 011 1v5m-4 0h4"/></svg></div>
+        <div><div class="fc-title">ข้อมูลองค์กร / บริษัท</div><div class="fc-subtitle">สำหรับออกใบเสนอราคาอย่างเป็นทางการ</div></div>
+      </div>
+      <div class="fc-body">
+        <div style="margin-bottom:16px">
+          <div style="font-size:12px;font-weight:600;color:var(--gray-600);margin-bottom:8px">ประเภทลูกค้า</div>
+          <div class="type-pills">
+            <div class="type-pill active" onclick="togglePill(this,'.type-pills')">บริษัท / ห้างหุ้นส่วน</div>
+            <div class="type-pill" onclick="togglePill(this,'.type-pills')">ผู้รับเหมา</div>
+            <div class="type-pill" onclick="togglePill(this,'.type-pills')">ร้านค้า / ตัวแทน</div>
+            <div class="type-pill" onclick="togglePill(this,'.type-pills')">บุคคลทั่วไป</div>
+          </div>
+        </div>
+        <div class="form-row">
+          <div class="field"><label>ชื่อบริษัท / องค์กร <span class="req">*</span></label><input type="text" placeholder="บริษัท ABC จำกัด"></div>
+          <div class="field"><label>เลขประจำตัวผู้เสียภาษี</label><input type="text" placeholder="0000000000000"></div>
+        </div>
+        <div class="form-row">
+          <div class="field"><label>ชื่อผู้ติดต่อ <span class="req">*</span></label><input type="text" placeholder="ชื่อ - นามสกุล"></div>
+          <div class="field"><label>ตำแหน่ง</label><input type="text" placeholder="ผู้จัดการโครงการ"></div>
+        </div>
+        <div class="form-row">
+          <div class="field"><label>เบอร์โทรศัพท์ <span class="req">*</span></label><input type="tel" placeholder="08X-XXX-XXXX"></div>
+          <div class="field"><label>อีเมล <span class="req">*</span></label><input type="email" placeholder="email@company.com"></div>
+        </div>
+        <div class="form-row single">
+          <div class="field"><label>LINE ID</label><input type="text" placeholder="@lineID (ไม่บังคับ)"></div>
+        </div>
+      </div>
+    </div>
+
+    <!-- 2. ข้อมูลโครงการ -->
+    <div class="form-card">
+      <div class="fc-header">
+        <div class="fc-icon"><svg viewBox="0 0 24 24"><path d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2"/></svg></div>
+        <div><div class="fc-title">ข้อมูลโครงการ</div><div class="fc-subtitle">ช่วยให้เราเสนอราคาได้ตรงกับความต้องการมากขึ้น</div></div>
+      </div>
+      <div class="fc-body">
+        <div style="margin-bottom:16px">
+          <div style="font-size:12px;font-weight:600;color:var(--gray-600);margin-bottom:8px">ประเภทโครงการ</div>
+          <div class="type-pills">
+            <div class="type-pill active" onclick="togglePill(this,'.proj-pills')">ก่อสร้างใหม่</div>
+            <div class="type-pill proj-pills" onclick="togglePill(this,'.proj-pills')">ปรับปรุงซ่อมแซม</div>
+            <div class="type-pill proj-pills" onclick="togglePill(this,'.proj-pills')">โรงงาน/อุตสาหกรรม</div>
+            <div class="type-pill proj-pills" onclick="togglePill(this,'.proj-pills')">อาคารพาณิชย์</div>
+            <div class="type-pill proj-pills" onclick="togglePill(this,'.proj-pills')">ที่อยู่อาศัย</div>
+          </div>
+        </div>
+        <div class="form-row">
+          <div class="field"><label>ชื่อโครงการ <span class="req">*</span></label><input type="text" placeholder="โครงการ XYZ"></div>
+          <div class="field"><label>สถานที่โครงการ</label><input type="text" placeholder="จังหวัด / เขต"></div>
+        </div>
+        <div class="form-row triple">
+          <div class="field"><label>งบประมาณโดยประมาณ</label>
+            <select><option>น้อยกว่า 50,000 ฿</option><option selected>50,000 – 200,000 ฿</option><option>200,000 – 1,000,000 ฿</option><option>มากกว่า 1,000,000 ฿</option></select>
+          </div>
+          <div class="field"><label>ระยะเวลาโครงการ</label>
+            <select><option>น้อยกว่า 1 เดือน</option><option selected>1–3 เดือน</option><option>3–6 เดือน</option><option>มากกว่า 6 เดือน</option></select>
+          </div>
+          <div class="field"><label>ต้องการสินค้าภายใน</label><input type="date"></div>
+        </div>
+        <div class="form-row single">
+          <div class="field"><label>รายละเอียดเพิ่มเติม</label><textarea placeholder="อธิบายความต้องการโดยย่อ เช่น ระบบไฟฟ้า 3 เฟส, ต้องการติดตั้งในพื้นที่ชื้น ฯลฯ"></textarea></div>
+        </div>
+      </div>
+    </div>
+
+    <!-- 3. รายการสินค้า -->
+    <div class="form-card">
+      <div class="fc-header">
+        <div class="fc-icon"><svg viewBox="0 0 24 24"><path d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2m-3 7h3m-3 4h3m-6-4h.01M9 16h.01"/></svg></div>
+        <div><div class="fc-title">รายการสินค้าที่ต้องการ</div><div class="fc-subtitle">ระบุรายการและปริมาณเพื่อรับราคาที่แม่นยำ</div></div>
+      </div>
+      <div class="fc-body">
+        <div style="overflow-x:auto">
+          <table class="items-table" id="itemsTable">
+            <thead>
+              <tr>
+                <th style="width:36px">#</th>
+                <th>ชื่อสินค้า / รุ่น</th>
+                <th style="width:90px">หน่วย</th>
+                <th style="width:70px">จำนวน</th>
+                <th style="width:90px;text-align:right">ยอดรวม</th>
+                <th style="width:36px"></th>
+              </tr>
+            </thead>
+            <tbody id="itemsBody">
+              <tr data-row="1">
+                <td style="font-size:12px;color:var(--gray-400);text-align:center">1</td>
+                <td><input class="item-input product-name" type="text" placeholder="เช่น สาย NYY 2×1.5 mm²" value="สาย NYY 2×1.5 mm²" onchange="calcRow(this)"></td>
+                <td><select class="item-input unit" onchange="calcRow(this)"><option>เมตร</option><option>ม้วน</option><option>ชิ้น</option><option>กล่อง</option><option>ชุด</option><option>อื่นๆ</option></select></td>
+                <td><input class="item-input qty" type="number" value="100" min="1" oninput="calcRow(this)"></td>
+                <td class="item-subtotal" id="sub1">฿8,500</td>
+                <td><button class="del-btn" onclick="delRow(this)">✕</button></td>
+              </tr>
+              <tr data-row="2">
+                <td style="font-size:12px;color:var(--gray-400);text-align:center">2</td>
+                <td><input class="item-input product-name" type="text" placeholder="เช่น MCB Schneider 16A" value="MCB Schneider 16A 1P" onchange="calcRow(this)"></td>
+                <td><select class="item-input unit" onchange="calcRow(this)"><option>เมตร</option><option>ม้วน</option><option selected>ชิ้น</option><option>กล่อง</option><option>ชุด</option><option>อื่นๆ</option></select></td>
+                <td><input class="item-input qty" type="number" value="10" min="1" oninput="calcRow(this)"></td>
+                <td class="item-subtotal" id="sub2">฿3,200</td>
+                <td><button class="del-btn" onclick="delRow(this)">✕</button></td>
+              </tr>
+              <tr data-row="3">
+                <td style="font-size:12px;color:var(--gray-400);text-align:center">3</td>
+                <td><input class="item-input product-name" type="text" placeholder="เช่น สาย VAF 2×1.5 mm²" onchange="calcRow(this)"></td>
+                <td><select class="item-input unit" onchange="calcRow(this)"><option>เมตร</option><option>ม้วน</option><option>ชิ้น</option><option>กล่อง</option><option>ชุด</option><option>อื่นๆ</option></select></td>
+                <td><input class="item-input qty" type="number" value="" min="1" oninput="calcRow(this)" placeholder="0"></td>
+                <td class="item-subtotal" id="sub3">–</td>
+                <td><button class="del-btn" onclick="delRow(this)">✕</button></td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+        <button class="add-item-btn" onclick="addRow()">
+          <svg style="width:14px;height:14px;fill:none;stroke:currentColor;stroke-width:2" viewBox="0 0 24 24"><path d="M12 5v14M5 12h14"/></svg>
+          เพิ่มรายการสินค้า
+        </button>
+        <div style="margin-top:12px;padding:10px 14px;background:var(--gold-light);border:.5px solid var(--gold);border-radius:8px;font-size:12px;color:var(--gold);display:flex;align-items:center;gap:6px">
+          <svg style="width:14px;height:14px;fill:none;stroke:currentColor;stroke-width:2;flex-shrink:0" viewBox="0 0 24 24"><path d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"/></svg>
+          ไม่ทราบรายละเอียดสินค้าแน่ชัด? ระบุข้อมูลโดยประมาณ ทีมงานจะช่วยแนะนำรุ่นที่เหมาะสม
+        </div>
+      </div>
+    </div>
+
+    <!-- 4. แนบไฟล์ -->
+    <div class="form-card">
+      <div class="fc-header">
+        <div class="fc-icon"><svg viewBox="0 0 24 24"><path d="M15.172 7l-6.586 6.586a2 2 0 102.828 2.828l6.414-6.586a4 4 0 00-5.656-5.656l-6.415 6.585a6 6 0 108.486 8.486L20.5 13"/></svg></div>
+        <div><div class="fc-title">แนบไฟล์เพิ่มเติม (ไม่บังคับ)</div><div class="fc-subtitle">แบบแปลน BOQ หรือรายการวัสดุ</div></div>
+      </div>
+      <div class="fc-body">
+        <div class="upload-zone" onclick="showToast('เปิดหน้าต่างเลือกไฟล์')">
+          <svg viewBox="0 0 24 24"><path d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-8l-4-4m0 0L8 8m4-4v12"/></svg>
+          <p>คลิกเพื่ออัปโหลด หรือลากวางไฟล์ที่นี่</p>
+          <span>รองรับ PDF, DWG, XLS, JPG ขนาดไม่เกิน 20MB</span>
+        </div>
+        <div class="file-list">
+          <div class="file-item">
+            <div class="file-icon"><svg viewBox="0 0 24 24"><path d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"/></svg></div>
+            <span class="file-name">BOQ_โครงการ_ABC.pdf</span>
+            <span class="file-size">1.2 MB</span>
+            <button class="del-btn" onclick="this.closest('.file-item').remove()">✕</button>
+          </div>
+        </div>
+      </div>
+    </div>
+
+  </div>
+
+  <!-- RIGHT: SUMMARY -->
+  <div>
+    <div class="summary-card">
+      <div class="sc-header"><div class="sc-title">สรุปคำขอใบเสนอราคา</div></div>
+      <div class="sc-body">
+
+        <div class="discount-tag">
+          <svg viewBox="0 0 24 24"><path d="M9 14l6-6m-5.5.5h.01m4.99 5h.01M19 21V5a2 2 0 00-2-2H7a2 2 0 00-2 2v16l3.5-2 3.5 2 3.5-2 3.5 2z"/></svg>
+          ยอดรวมเกิน 10,000 ฿ รับส่วนลดพิเศษ 5–15%
+        </div>
+
+        <div class="summary-rows">
+          <div class="sr-row"><span class="sr-label">จำนวนรายการ</span><span class="sr-val" id="itemCount">2 รายการ</span></div>
+          <div class="sr-row"><span class="sr-label">ราคารวม (ประมาณ)</span><span class="sr-val" id="subtotalDisp">฿11,700</span></div>
+          <div class="sr-row"><span class="sr-label">ส่วนลดโครงการ (5%)</span><span class="sr-val" style="color:var(--green)" id="discountDisp">- ฿585</span></div>
+        </div>
+        <div style="border-top:.5px solid var(--gray-200);margin:10px 0 4px"></div>
+        <div class="sr-row sr-total"><span class="sr-label">ยอดสุทธิ (ประมาณ)</span><span class="sr-val" id="totalDisp">฿11,115</span></div>
+        <div class="vat-note">*ยังไม่รวม VAT 7% และค่าจัดส่ง</div>
+
+        <!-- การจัดส่ง -->
+        <div style="font-size:12px;font-weight:600;color:var(--gray-600);margin-bottom:8px">รูปแบบการรับสินค้า</div>
+        <div class="delivery-opts">
+          <label class="del-opt active" onclick="this.classList.add('active');this.parentNode.querySelectorAll('.del-opt').forEach(el=>el!==this&&el.classList.remove('active'))">
+            <input type="radio" name="delivery" checked>
+            <div class="del-opt-body">
+              <div class="del-opt-name">จัดส่งทั่วไทย</div>
+              <div class="del-opt-detail">1–3 วันทำการ (Kerry / Flash)</div>
+            </div>
+            <div class="del-opt-price">คำนวณภายหลัง</div>
+          </label>
+          <label class="del-opt" onclick="this.classList.add('active');this.parentNode.querySelectorAll('.del-opt').forEach(el=>el!==this&&el.classList.remove('active'))">
+            <input type="radio" name="delivery">
+            <div class="del-opt-body">
+              <div class="del-opt-name">รถขนส่งขนาดใหญ่</div>
+              <div class="del-opt-detail">สำหรับออเดอร์ขนาดใหญ่</div>
+            </div>
+            <div class="del-opt-price">ตามระยะทาง</div>
+          </label>
+          <label class="del-opt" onclick="this.classList.add('active');this.parentNode.querySelectorAll('.del-opt').forEach(el=>el!==this&&el.classList.remove('active'))">
+            <input type="radio" name="delivery">
+            <div class="del-opt-body">
+              <div class="del-opt-name">รับที่สาขา</div>
+              <div class="del-opt-detail">บางกอกน้อย กทม.</div>
+            </div>
+            <div class="del-opt-price" style="color:var(--green)">ฟรี</div>
+          </label>
+        </div>
+
+        <!-- การติดต่อกลับ -->
+        <div style="font-size:12px;font-weight:600;color:var(--gray-600);margin-bottom:8px">ช่องทางติดต่อกลับที่ต้องการ</div>
+        <div class="contact-prefs">
+          <div class="cp active" onclick="this.classList.toggle('active')">📧 อีเมล</div>
+          <div class="cp active" onclick="this.classList.toggle('active')">📱 โทรศัพท์</div>
+          <div class="cp" onclick="this.classList.toggle('active')">💬 LINE</div>
+          <div class="cp" onclick="this.classList.toggle('active')">📠 แฟกซ์</div>
+        </div>
+
+        <button class="submit-btn" onclick="submitForm()">
+          <svg viewBox="0 0 24 24"><path d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2"/></svg>
+          ส่งคำขอใบเสนอราคา
+        </button>
+        <p class="submit-note">ทีมงานจะติดต่อกลับภายใน 24 ชม. ในวันทำการ<br>จ–ศ 08:00–17:30 น. · โทร 02-000-0000</p>
+      </div>
+    </div>
+  </div>
+</div>
+
+<script>
+let rowCount = 3;
+const unitPrices = { 'สาย NYY': 85, 'สาย VAF': 28, 'สาย THW': 18, 'สาย CV': 195, 'MCB Schneider': 320, 'ปลั๊ก': 490 };
+
+function getEstPrice(name) {
+  for(let k in unitPrices) { if(name.includes(k)) return unitPrices[k]; }
+  return 100;
+}
+
+function calcRow(el) {
+  const row = el.closest('tr');
+  const idx = row.dataset.row;
+  const name = row.querySelector('.product-name').value;
+  const qty = parseFloat(row.querySelector('.qty').value) || 0;
+  const sub = document.getElementById('sub' + idx);
+  if(!sub) return;
+  if(qty > 0 && name.trim()) {
+    const price = getEstPrice(name);
+    sub.textContent = '฿' + (price * qty).toLocaleString();
+  } else { sub.textContent = '–'; }
+  updateSummary();
+}
+
+function updateSummary() {
+  let total = 0; let count = 0;
+  document.querySelectorAll('#itemsBody tr').forEach(row => {
+    const name = row.querySelector('.product-name')?.value || '';
+    const qty = parseFloat(row.querySelector('.qty')?.value) || 0;
+    if(qty > 0 && name.trim()) { total += getEstPrice(name) * qty; count++; }
+  });
+  const disc = total >= 10000 ? Math.round(total * 0.05) : 0;
+  const net = total - disc;
+  document.getElementById('itemCount').textContent = count + ' รายการ';
+  document.getElementById('subtotalDisp').textContent = '฿' + total.toLocaleString();
+  document.getElementById('discountDisp').textContent = disc > 0 ? '- ฿' + disc.toLocaleString() : '–';
+  document.getElementById('totalDisp').textContent = '฿' + net.toLocaleString();
+}
+
+function addRow() {
+  rowCount++;
+  const tbody = document.getElementById('itemsBody');
+  const tr = document.createElement('tr');
+  tr.dataset.row = rowCount;
+  tr.innerHTML = `
+    <td style="font-size:12px;color:var(--gray-400);text-align:center">${tbody.children.length + 1}</td>
+    <td><input class="item-input product-name" type="text" placeholder="ชื่อสินค้า / รุ่น" onchange="calcRow(this)"></td>
+    <td><select class="item-input unit" onchange="calcRow(this)"><option>เมตร</option><option>ม้วน</option><option>ชิ้น</option><option>กล่อง</option><option>ชุด</option><option>อื่นๆ</option></select></td>
+    <td><input class="item-input qty" type="number" min="1" placeholder="0" oninput="calcRow(this)"></td>
+    <td class="item-subtotal" id="sub${rowCount}">–</td>
+    <td><button class="del-btn" onclick="delRow(this)">✕</button></td>`;
+  tbody.appendChild(tr);
+  tr.querySelector('.product-name').focus();
+}
+
+function delRow(btn) {
+  const row = btn.closest('tr');
+  if(document.querySelectorAll('#itemsBody tr').length <= 1) { showToast('ต้องมีสินค้าอย่างน้อย 1 รายการ'); return; }
+  row.remove();
+  document.querySelectorAll('#itemsBody tr').forEach((r, i) => { r.firstElementChild.textContent = i + 1; });
+  updateSummary();
+}
+
+function togglePill(el, selector) {
+  el.closest('.fc-body, .form-card').querySelectorAll('.type-pill').forEach(p => p.classList.remove('active'));
+  el.classList.add('active');
+}
+
+function submitForm() {
+  const ref = 'VT-' + new Date().getFullYear() + '-' + Math.floor(10000 + Math.random() * 90000);
+  document.getElementById('refNum').textContent = ref;
+  document.getElementById('successOverlay').classList.add('show');
+}
+
+function showToast(msg) {
+  const t = document.getElementById('toast');
+  document.getElementById('toastMsg').textContent = msg;
+  t.classList.add('show');
+  setTimeout(() => t.classList.remove('show'), 2500);
+}
+</script>
+</body>
+</html>
